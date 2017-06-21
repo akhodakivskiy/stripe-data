@@ -2,12 +2,13 @@
 
 This project allows users to train and evaluate models to predict high growth user. The entry point is the `StripeGrowthApp`. The user can execute the main program using the `stripe-growth-app` script (generaged by `sbt-native-assembly` plugin)
 
-There is also sample execution script in `run_model.sh` which expects `STRIPE_DATA_HOME` enviroment variable to be set to the path of the project build created by `sbt stage` or `sbt universal:publishBin`:
+There is also sample execution script in `run_model.sh` which expects `STRIPE_DATA_HOME` enviroment variable to be set to the path of the project build created by `sbt stage` or `sbt universal:packageBin`:
 
 ```bash
 $ sbt stage
 ...
 $ STRIPE_DATA_HOME=./target/universal/stage ./run_model.sh --data-file <path to data file>
+...
 ```
 
 ```
