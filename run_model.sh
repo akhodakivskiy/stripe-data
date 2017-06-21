@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-./target/universal/stage/bin/stripe-data "$@" \
+$STRIPE_DATA_HOME/bin/stripe-data "$@" \
   --model-file model.zip \
   --result-file result.csv \
   --growth-condition amount-2-2-10 \
