@@ -76,6 +76,6 @@ Currently there are 4 different features implemented.
 - `amount-factor-<period factor>`
 - `count-factor-<period factor>`
 
-The first two just count the total amount and number of transactions for each user. The latter two calculate the ratio of the amounts of the counts in two periods defined by the period factor (see the explanation ablove)
+The first two just count the total amount and number of transactions for each user. The latter two calculate the ratio of the amounts or the counts in two periods defined by the `<period factor>` (see the explanation ablove)
 
 These features describe users on multiple dimensions that hopefully correlate with our definition of the High Growth User.
