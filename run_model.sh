@@ -3,7 +3,7 @@
 $STRIPE_DATA_HOME/bin/stripe-data "$@" \
   --model-file model.zip \
   --result-file result.csv \
-  --growth-condition amount-2-2-10 \
+  --growth-condition count-and-amount-2-.7-.7-10 \
   --feature count \
   --feature amount \
   --feature amount-factor-0.1 \
