@@ -1,4 +1,4 @@
-= Predicting high growth users for Stripe =
+# Predicting high growth users for Stripe
 
 This project allows one to train and evaluate models to predict high growth user. The entry point is the `StripeGrowthApp`, one can execute the main program using the `stripe-growth-app` script.
 
@@ -25,7 +25,7 @@ Usage: neural [options]
 
 The application works in two modes: training and evaluation. The latter is enabled by passing the `--eval-only` flag. The user can specify some constants as to how to split the data into training, testing, and validation sets. As well as specify the minimum number of transactions per user (other users will be discarded). The models can be saved to and restored from files using the `--model-file` option.
 
-== The High Growth User ==
+## The High Growth User
 
 High growth user is one that's using the platform more as the time passes. This project allows to evaluate different high conditions. This is done by implementing the `GrowthCondition` trait.
 
@@ -45,7 +45,7 @@ Here the transactions for a specific user are split into two groups based on the
 
 If we count the numbers of transactions and their total amounts in both periods we can now argue whether the user are high growth or no. Amount growth factor is the threshold for the ratio fo the total amount in the second period to the total amount in the first period. Count growth factor is defined similarly.
 
-== Features of Users ==
+## Features of Users
 
 We describe users using various features which serve as inputs to the model. This is done by implementing the `Feature` trait.
 
