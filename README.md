@@ -53,7 +53,8 @@ Currently there are 3 implementations focusing on the (1) amount transacted, the
 Here the transactions for a specific user are split into two groups based on the transaction time. If the first transation time is `TS`, the last transation time is `TE` then we are going to choose threshold time `TT` such that `(TE - TT) / (TT - TS)` equals to the `<period factor>`. In the example below `<period factor>` is roughly 2.
 
 ```
------TS-----TT----------TE------> time
+       period1      period2
+-----TS-------TT--------------TE------> time
 ```
 
 If we count the numbers of transactions and their total amounts in both periods we can now argue whether the user are high growth or no. Amount growth factor is the threshold for the ratio fo the total amount in the second period to the total amount in the first period. Count growth factor is defined similarly.
