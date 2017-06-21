@@ -35,11 +35,7 @@ case class AmountFactorFeature(periodFactor: Double) extends Feature {
     val firstAmount: Double = firstPeriodTxs.map(_.amount).sum
     val secondAmount: Double = secondPeriodTxs.map(_.amount).sum
 
-    if (firstAmount != 0.0) {
-      secondAmount / firstAmount
-    } else {
-      Double.NaN
-    }
+    secondAmount / (firstAmount + secondAmount)
   }
 }
 
@@ -47,10 +43,6 @@ case class CountFactorFeature(periodFactor: Double) extends Feature {
   def value(txs: Seq[Transaction]): Double = {
     val (firstPeriodTxs, secondPeriodTxs) = txs.partitionWithPeriodFactor(periodFactor)
 
-    if (firstPeriodTxs.nonEmpty) {
-      secondPeriodTxs.size.toDouble / firstPeriodTxs.size.toDouble
-    } else {
-      Double.NaN
-    }
+    secondPeriodTxs.size.toDouble / (secondPeriodTxs.size.toDouble + firstPeriodTxs.size.toDouble)
   }
 }

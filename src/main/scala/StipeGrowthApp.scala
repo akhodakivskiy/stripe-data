@@ -20,6 +20,7 @@ import org.nd4j.linalg.activations.Activation
 import org.nd4j.linalg.api.ndarray.INDArray
 import org.nd4j.linalg.dataset.DataSet
 import org.nd4j.linalg.dataset.api.preprocessor.NormalizerStandardize
+import org.nd4j.linalg.factory.Nd4j
 import org.nd4j.linalg.lossfunctions.impl.LossMCXENT
 import scopt.OptionParser
 
@@ -93,10 +94,10 @@ class StipeGrowthApp(config: StipeGrowthApp.Config) extends LazyLogging {
         val normalizer = ModelSerializer.restoreNormalizerFromFile[NormalizerStandardize](modelFilePath.toFile)
         val preProcessor: CombinedPreProcessor = new CombinedPreProcessor.Builder().addPreProcessor(normalizer).addPreProcessor(new NaN2ZeroPreProcessor).build
 
-        val users: Seq[String] = txByUser.keys.toSeq
+        val users: Seq[String] = txByUser.keys.toVector
 
         val generator = new DataSetGenerator(config.growthCondition, config.features, batchSize = 1)
-        val it = generator.makeDataSet(users, txByUser)
+        val it = generator.makeDataSet(users, txByUser, balance = false)
         it.setPreProcessor(preProcessor)
 
         val eval = model.evaluate(it)
@@ -123,15 +124,14 @@ class StipeGrowthApp(config: StipeGrowthApp.Config) extends LazyLogging {
 
       logger.info(s"generating data sets")
       val generator = new DataSetGenerator(config.growthCondition, config.features, batchSize = 100)
-      val trainIt = generator.makeDataSet(trainUsers, txByUser)
-      val testIt = generator.makeDataSet(testUsers, txByUser)
-      val validateIt = generator.makeDataSet(validateUsers, txByUser)
+      val trainIt = generator.makeDataSet(trainUsers, txByUser, balance = true)
+      val testIt = generator.makeDataSet(testUsers, txByUser, balance = false)
+      val validateIt = generator.makeDataSet(validateUsers, txByUser, balance = false)
 
       trainIt.setPreProcessor(new NaN2ZeroPreProcessor)
 
       logger.info(s"fitting normalizer")
       val normalizer = new NormalizerStandardize()
-      normalizer.fitLabel(true)
       normalizer.fit(trainIt)
 
       val preProcessor: CombinedPreProcessor = new CombinedPreProcessor.Builder().addPreProcessor(normalizer).addPreProcessor(new NaN2ZeroPreProcessor).build
@@ -139,7 +139,7 @@ class StipeGrowthApp(config: StipeGrowthApp.Config) extends LazyLogging {
       testIt.setPreProcessor(preProcessor)
       validateIt.setPreProcessor(preProcessor)
 
-      val model = makeModel(normalizer.getLabelMean)
+      val model = makeModel()
 
       val saver = new InMemoryModelSaver[MultiLayerNetwork]
       val scoreCalculator: ScoreCalculator[MultiLayerNetwork] = new F1ScoreCalculator(testIt)
@@ -174,8 +174,8 @@ class StipeGrowthApp(config: StipeGrowthApp.Config) extends LazyLogging {
     }
   }
 
-  def makeModel(labelMean: INDArray): MultiLayerNetwork = {
-    val lossFunction = new LossMCXENT(labelMean)
+  def makeModel(): MultiLayerNetwork = {
+    val lossFunction = new LossMCXENT()
 
     val conf = new NeuralNetConfiguration.Builder()
       .optimizationAlgo(OptimizationAlgorithm.STOCHASTIC_GRADIENT_DESCENT)
