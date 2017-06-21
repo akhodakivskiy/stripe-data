@@ -71,10 +71,10 @@ trait Feature {
 
 Currently there are 4 different features implemented.
 
-- amount
-- count
-- amount-factor-<period factor>
-- count-factor-<period factor>
+- `amount`
+- `count`
+- `amount-factor-<period factor>`
+- `count-factor-<period factor>`
 
 The first two just count the total amount and number of transactions for each user. The latter two calculate the ratio of the amounts of the counts in two periods defined by the period factor (see the explanation ablove)
 
